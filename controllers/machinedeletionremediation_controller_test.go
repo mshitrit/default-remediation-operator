@@ -120,6 +120,11 @@ var _ = Describe("Machine Deletion Remediation CR", func() {
 
 			})
 
+			It("This should fail", func() {
+				Expect(false).To(BeTrue())
+
+			})
+
 		})
 
 		When("remediation cr doesn't have a machine owner ref", func() {
