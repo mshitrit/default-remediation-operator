@@ -6,5 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: npm install -g bats
-      - run: bats -v
+      - run: go get github.com/jstemmer/go-junit-report
+      - run: go test ./... -coverprofile=cover.out  | go-junit-report > report.xml
+#      - run: npm install -g bats
+#      - run: bats -v
