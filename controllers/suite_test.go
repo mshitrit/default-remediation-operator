@@ -45,7 +45,7 @@ var k8sClient client.Client
 var testEnv *envtest.Environment
 
 const (
-	envVarApiServer = "TEST_ASSET_KUBE_APISERVER"
+	envVarAPIServer = "TEST_ASSET_KUBE_APISERVER"
 	envVarETCD      = "TEST_ASSET_ETCD"
 	envVarKUBECTL   = "TEST_ASSET_KUBECTL"
 )
@@ -59,8 +59,8 @@ func TestAPIs(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
-	if _, isFound := os.LookupEnv(envVarApiServer); !isFound {
-		Expect(os.Setenv(envVarApiServer, "../testbin/bin/kube-apiserver")).To(Succeed())
+	if _, isFound := os.LookupEnv(envVarAPIServer); !isFound {
+		Expect(os.Setenv(envVarAPIServer, "../testbin/bin/kube-apiserver")).To(Succeed())
 	}
 	if _, isFound := os.LookupEnv(envVarETCD); !isFound {
 		Expect(os.Setenv(envVarETCD, "../testbin/bin/etcd")).To(Succeed())
@@ -119,7 +119,7 @@ var _ = AfterSuite(func() {
 	err := testEnv.Stop()
 	Expect(err).NotTo(HaveOccurred())
 
-	Expect(os.Unsetenv(envVarApiServer)).To(Succeed())
+	Expect(os.Unsetenv(envVarAPIServer)).To(Succeed())
 	Expect(os.Unsetenv(envVarETCD)).To(Succeed())
 	Expect(os.Unsetenv(envVarKUBECTL)).To(Succeed())
 })
