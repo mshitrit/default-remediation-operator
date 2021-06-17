@@ -92,6 +92,9 @@ verify-no-changes: ## verify no there are no un-staged changes
 fetch-mutation: ## fetch mutation package.
 	GO111MODULE=off go get -t -v github.com/mshitrit/go-mutesting/...
 
+fetch-godacov: ## used for code coverage report
+	GO111MODULE=off go get github.com/schrej/godacov
+
 # Run tests
 ENVTEST_ASSETS_DIR=$(shell pwd)/testbin
 test: manifests generate fmt vet
@@ -106,6 +109,8 @@ test-mutation: verify-no-changes fetch-mutation ## Run mutation tests in manual 
 test-mutation-ci: fetch-mutation ## Run mutation tests as part of auto build process.
 	./hack/test-mutation.sh
 
+publish-code-coverage-to-codacy: fetch-godacov
+	./hack/gen-code-coverage.sh
 # Build manager binary
 manager: generate fmt vet
 	go build -o bin/manager main.go
