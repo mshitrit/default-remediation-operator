@@ -33,7 +33,7 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/medik8s/machine-deletion-remediation/api/v1alpha1"
+	"github.com/medik8s/machine-deletion/api/v1alpha1"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -45,7 +45,7 @@ var k8sClient client.Client
 var testEnv *envtest.Environment
 
 const (
-	envVarAPIServer = "TEST_ASSET_KUBE_APISERVER"
+	envVarApiServer = "TEST_ASSET_KUBE_APISERVER"
 	envVarETCD      = "TEST_ASSET_ETCD"
 	envVarKUBECTL   = "TEST_ASSET_KUBECTL"
 )
@@ -59,8 +59,8 @@ func TestAPIs(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
-	if _, isFound := os.LookupEnv(envVarAPIServer); !isFound {
-		Expect(os.Setenv(envVarAPIServer, "../testbin/bin/kube-apiserver")).To(Succeed())
+	if _, isFound := os.LookupEnv(envVarApiServer); !isFound {
+		Expect(os.Setenv(envVarApiServer, "../testbin/bin/kube-apiserver")).To(Succeed())
 	}
 	if _, isFound := os.LookupEnv(envVarETCD); !isFound {
 		Expect(os.Setenv(envVarETCD, "../testbin/bin/etcd")).To(Succeed())
@@ -97,9 +97,9 @@ var _ = BeforeSuite(func() {
 	})
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&MachineDeletionRemediationReconciler{
+	err = (&MachineDeletionReconciler{
 		Client: k8sManager.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("machine-deletion-remediation-controller"),
+		Log:    ctrl.Log.WithName("controllers").WithName("machine-deletion-controller"),
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
@@ -119,7 +119,7 @@ var _ = AfterSuite(func() {
 	err := testEnv.Stop()
 	Expect(err).NotTo(HaveOccurred())
 
-	Expect(os.Unsetenv(envVarAPIServer)).To(Succeed())
+	Expect(os.Unsetenv(envVarApiServer)).To(Succeed())
 	Expect(os.Unsetenv(envVarETCD)).To(Succeed())
 	Expect(os.Unsetenv(envVarKUBECTL)).To(Succeed())
 })
