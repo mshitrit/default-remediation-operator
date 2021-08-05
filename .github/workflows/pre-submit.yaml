@@ -30,4 +30,6 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           # or
           # api-token: ${{ secrets.CODACY_API_TOKEN }}
-          coverage-reports: cover.out
+          coverage-reports: coverage.out
+
+
